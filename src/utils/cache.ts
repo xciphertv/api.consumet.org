@@ -5,6 +5,7 @@ import { Redis } from 'ioredis';
 TLDR; " Expires " is seconds based. for example 60*60 would = 3600 (an hour)
 */
 
+
 const fetch = async <T>(redis: Redis, key: string, fetcher: () => T, expires: number) => {
   const existing = await get<T>(redis, key);
   if (existing !== null) return existing;
@@ -32,3 +33,5 @@ const del = async (redis: Redis, key: string) => {
 };
 
 export default { fetch, set, get, del };
+
+
