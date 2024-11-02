@@ -1,5 +1,6 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, RegisterOptions } from 'fastify';
 import { MOVIES } from '@consumet/extensions';
+import { StreamingServers } from '@consumet/extensions/dist/models';
 
 const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   const dramacool = new MOVIES.DramaCool();
@@ -91,12 +92,34 @@ const routes = async (fastify: FastifyInstance, options: RegisterOptions) => {
   fastify.get('/watch', async (request: FastifyRequest, reply: FastifyReply) => {
     const episodeId = (request.query as { episodeId: string }).episodeId;
     const mediaId = (request.query as { mediaId: string }).mediaId;
-    const server = (request.query as { server: string }).server;
+    const serverString = (request.query as { server: string }).server;
 
     if (typeof episodeId === 'undefined')
       return reply.status(400).send({ message: 'episodeId is required' });
 
     try {
+      // Convert server string to StreamingServers enum
+      let server: StreamingServers | undefined = undefined;
+      if (serverString) {
+        switch (serverString.toLowerCase()) {
+          case 'asianload':
+            server = StreamingServers.AsianLoad;
+            break;
+          case 'mixdrop':
+            server = StreamingServers.MixDrop;
+            break;
+          case 'streamtape':
+            server = StreamingServers.StreamTape;
+            break;
+          case 'streamsb':
+            server = StreamingServers.StreamSB;
+            break;
+          default:
+            reply.status(400).send({ message: 'Invalid server specified' });
+            return;
+        }
+      }
+
       const res = await dramacool
         .fetchEpisodeSources(episodeId, server)
         .catch((err) => reply.status(404).send({ message: err }));
