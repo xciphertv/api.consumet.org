@@ -23,7 +23,7 @@
     },
     "homepage": "https://github.com/xciphertv/consumet.ts#readme",
     "dependencies": {
-        "@consumet/extensions": "github:xciphertv/old-consumet.ts",
+        "@consumet/extensions": "github:xciphertv/consumet.ts",
         "@fastify/cors": "^10.0.1",
         "@types/ioredis": "^5.0.0",
         "@types/node": "^22.7.4",
