@@ -3,6 +3,7 @@
     "builds": [
       {
         "src": "/src/main.ts",
+        "runtime": "@vercel/node@3.2.9"
         "use": "@vercel/node"
       }
     ],
