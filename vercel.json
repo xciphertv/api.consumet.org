@@ -10,6 +10,7 @@
       {
         "src": "/(.*)",
         "dest": "/src/main.ts"
+        "runtime": "@vercel/node@5.1.7"
       }
     ]
   }
